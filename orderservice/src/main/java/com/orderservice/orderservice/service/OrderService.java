@@ -21,14 +21,14 @@ public class OrderService {
         Order order = new Order();
         order.setOrderNumber(UUID.randomUUID().toString());
 
-       List<OrderLineItems> orderLineItemsList =  orderRequest.getOrderLineItemsDtos()
+        List<OrderLineItems> orderLineItemsList = orderRequest.getOrderLineItemsDtoList()
                 .stream()
                 .map(this::mapToDto)
                 .toList();
 
-       order.setOrderLineItemsList(orderLineItemsList);
+        order.setOrderLineItemsList(orderLineItemsList);
 
-       orderRepository.save(order);
+        orderRepository.save(order);
     }
 
     private OrderLineItems mapToDto(OrderLineItemsDto orderLineItemsDto) {
