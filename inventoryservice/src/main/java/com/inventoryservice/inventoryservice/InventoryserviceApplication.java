@@ -18,11 +18,11 @@ public class InventoryserviceApplication {
 	public CommandLineRunner loadData(InventoryRepository inventoryRepository){
 		return args -> {
 			Inventory inventory = new Inventory();
-			inventory.setSkuCode("AlienWare_2023");
+			inventory.setSkuCode("Lenovo_Thinkpad");
 			inventory.setQuantity(99);
 
 			Inventory inventoryy = new Inventory();
-			inventoryy.setSkuCode("Playstation");
+			inventoryy.setSkuCode("Lenovo_ThinkBook");
 			inventoryy.setQuantity(100);
 
 			inventoryRepository.save(inventory);

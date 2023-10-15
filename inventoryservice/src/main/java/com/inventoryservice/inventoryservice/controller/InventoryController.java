@@ -16,7 +16,8 @@ public class InventoryController {
     private final InventoryService inventoryService;
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<InventoryResponse>   isInStock(@PathVariable List<String> skuCode){
+    public List<InventoryResponse>  isInStock(@RequestParam List<String> skuCode){
+        System.out.println("Received inventory check the request "+skuCode);
         return inventoryService.isInStock(skuCode);
     }
 }

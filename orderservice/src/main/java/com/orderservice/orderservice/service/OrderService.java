@@ -33,7 +33,8 @@ public class OrderService {
         List<String> skuCodes = order.getOrderLineItemsList().stream()
                 .map(OrderLineItems::getSkuCode)
                 .toList();
-//        Call InventoryService and place order if product is in
+
+//        Making synchronous Call in spring
         InventoryResponse[] inventoryResponses =  webClient.get()
                 .uri("http://127.0.0.1:9044/api/v1/inventory",
                         uriBuilder -> uriBuilder.queryParam("skuCode",skuCodes).build())
@@ -41,13 +42,13 @@ public class OrderService {
                 .bodyToMono(InventoryResponse[].class)
                 .block();
 
-//        assert inventoryResponses != null;
+        assert inventoryResponses != null;
         boolean allProductsInStock = Arrays.stream(inventoryResponses).allMatch(InventoryResponse::isInStock);
 
         if(allProductsInStock){
             orderRepository.save(order);
         }else{
-            throw new IllegalArgumentException("Product is not in stock,please try again");
+            throw new IllegalArgumentException("Product is not in stock,please try again later");
         }
 
     }
