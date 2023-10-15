@@ -1,6 +1,5 @@
 package com.orderservice.orderservice.service;
 
-
 import com.orderservice.orderservice.dto.OrderLineItemsDto;
 import com.orderservice.orderservice.dto.OrderRequest;
 import com.orderservice.orderservice.model.Order;
@@ -28,6 +27,7 @@ public class OrderService {
 
         order.setOrderLineItemsList(orderLineItemsList);
 
+//        Call InventoryService and place order if product is in
         orderRepository.save(order);
     }
 
