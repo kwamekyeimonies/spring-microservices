@@ -7,8 +7,8 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -22,15 +22,15 @@ public class SecurityConfig  {
     @Value("${eureka.password}")
     private String password;
     @Bean
-    public InMemoryUserDetailsManager inMemoryUserDetailsManager(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+    public InMemoryUserDetailsManager inMemoryUserDetailsManager()  {
 
-       authenticationManagerBuilder.
-               inMemoryAuthentication()
-               .withUser(username).password(password)
-               .roles("USER");
-//               .authorities();
+        UserDetails user = User.withDefaultPasswordEncoder()
+               .username(username)
+                .password(password)
+               .roles("USER").build();
 
-       return (InMemoryUserDetailsManager) authenticationManagerBuilder.build();
+
+      return new InMemoryUserDetailsManager(user);
     }
 
     @Bean
