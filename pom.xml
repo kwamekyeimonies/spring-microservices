@@ -21,6 +21,7 @@
         <module>orderservice</module>
         <module>productservice</module>
         <module>apigateway</module>
+        <module>notificationservice</module>
     </modules>
 
     <properties>
