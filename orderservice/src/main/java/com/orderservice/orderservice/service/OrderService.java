@@ -5,10 +5,12 @@ import brave.Tracer;
 import com.orderservice.orderservice.dto.InventoryResponse;
 import com.orderservice.orderservice.dto.OrderLineItemsDto;
 import com.orderservice.orderservice.dto.OrderRequest;
+import com.orderservice.orderservice.event.OrderPlacedEvent;
 import com.orderservice.orderservice.model.Order;
 import com.orderservice.orderservice.model.OrderLineItems;
 import com.orderservice.orderservice.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -23,6 +25,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final WebClient.Builder webClientBuilder;
     private final Tracer tracer;
+    private KafkaTemplate<String,OrderPlacedEvent> kafkaTemplate;
 
     public String placeOrder(OrderRequest orderRequest){
         Order order = new Order();
@@ -53,6 +56,7 @@ public class OrderService {
 
             if(allProductsInStock){
                 orderRepository.save(order);
+                kafkaTemplate.send("notification",new OrderPlacedEvent(order.getOrderNumber()));
                 String msg = "Order placed successfully";
 
                 return msg;
