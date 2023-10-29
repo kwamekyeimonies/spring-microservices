@@ -1,6 +1,7 @@
 package org.notificationservice.event;
 
-import zlombok.AllArgsConstructor;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
